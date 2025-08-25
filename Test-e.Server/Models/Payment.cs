@@ -8,7 +8,6 @@ namespace Test_e.Server.Models
         [Key]
         public int Id { get; set; }
         
-        [ForeignKey("Order")]
         public int OrderId { get; set; }
         public virtual Order Order { get; set; } = null!;
         
@@ -30,6 +29,9 @@ namespace Test_e.Server.Models
         public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
     }
+    /// <summary>
+    ///  
+    /// </summary>
 
     public enum PaymentMethod
     {
