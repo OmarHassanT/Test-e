@@ -1,70 +1,53 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using Test_e.Server.Data;
+using Test_e.Server.DTOs;
 using Test_e.Server.Models;
-using Test_e.Server.Services;
+using Test_e.Server.Services.IServices;
 
 namespace Test_e.Server.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public record LoginDto(string Email, string Password);
-
     public class AuthController : ControllerBase
     {
-        private readonly ApplicationDbContext _db;
-        private readonly ITokenService _tokenService;
+        private readonly IAuthService _authService;
 
-        public AuthController(ApplicationDbContext db, ITokenService tokenService)
+        public AuthController(IAuthService authService)
         {
-            _db = db;
-            _tokenService = tokenService;
+            _authService = authService;
         }
 
+        [Authorize(Roles = "SuperAdmin")]
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] User userDto)
+        public async Task<ActionResult<ApiResponse<string>>> Register(RegisterUserDto userDto)
         {
-            if (await _db.Users.AnyAsync(u => u.Email == userDto.Email))
-                return BadRequest("Email already in use.");
+            var token = await _authService.RegisterAsync(userDto);
 
-            var hashedPassword = HashPassword(userDto.Password);
-            var user = new User
+            return Ok(new ApiResponse<string>
             {
-                FirstName = userDto.FirstName,
-                LastName = userDto.LastName,
-                Email = userDto.Email,
-                Password = hashedPassword,
-                Role = string.IsNullOrEmpty(userDto.Role) ? "Customer" : userDto.Role
-            };
-
-            _db.Users.Add(user);
-            await _db.SaveChangesAsync();
-
-            var token = _tokenService.CreateToken(user);
-            return Ok(new { token });
+                Success = true,
+                Message = "User registered successfully",
+                Data = token
+            });
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginDto dto)
+        public async Task<ActionResult<ApiResponse<string>>> Login([FromBody] LoginDto dto)
         {
-            var user = await _db.Users.FirstOrDefaultAsync(u => u.Email == dto.Email);
-            if (user == null || !VerifyPassword(dto.Password, user.Password))
-                return Unauthorized("Invalid credentials.");
+            var token = await _authService.LoginAsync(dto.Email, dto.Password);
 
-            var token = _tokenService.CreateToken(user);
-            return Ok(new { token });
+            return Ok(new ApiResponse<string>
+            {
+                Success = true,
+                Message = "User loggedin successfully",
+                Data = token
+            });
         }
-
-        // Simple SHA256 hashing (for demo — use a proper password hasher in prod!)
-        private static string HashPassword(string password)
-        {
-            using var sha = SHA256.Create();
-            var bytes = sha.ComputeHash(Encoding.UTF8.GetBytes(password));
-            return Convert.ToBase64String(bytes);
-        }
-
-        private static bool VerifyPassword(string password, string hashed)
-            => HashPassword(password) == hashed;
     }
 }

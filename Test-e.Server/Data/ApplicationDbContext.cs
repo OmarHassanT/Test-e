@@ -1,6 +1,4 @@
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
 using Test_e.Server.Models;
 
 namespace Test_e.Server.Data
@@ -158,7 +156,7 @@ namespace Test_e.Server.Data
                 .HasOne(w => w.User)
                 .WithMany(u => u.Wishlists)
                 .HasForeignKey(w => w.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<WishlistItem>()
                 .HasOne(wi => wi.Wishlist)
@@ -176,7 +174,7 @@ namespace Test_e.Server.Data
                 .HasOne(r => r.User)
                 .WithMany(u => u.Reviews)
                 .HasForeignKey(r => r.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Review>()
                 .HasOne(r => r.Product)
@@ -188,7 +186,7 @@ namespace Test_e.Server.Data
                 .HasOne(rvp => rvp.User)
                 .WithMany(u => u.RecentlyViewedProducts)
                 .HasForeignKey(rvp => rvp.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<RecentlyViewedProduct>()
                 .HasOne(rvp => rvp.Product)
@@ -201,6 +199,24 @@ namespace Test_e.Server.Data
                 .WithMany(u => u.Addresses)
                 .HasForeignKey(a => a.UserId)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Address>()
+                .HasOne(a => a.Country)
+                .WithMany(c => c.Addresses)
+                .HasForeignKey(a => a.CountryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Address>()
+                .HasOne(a => a.State)
+                .WithMany(c => c.Addresses)
+                .HasForeignKey(a => a.StateId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Address>()
+                .HasOne(a => a.City)
+                .WithMany(c => c.Addresses)
+                .HasForeignKey(a => a.CityId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<State>()
                 .HasOne(s => s.Country)
@@ -218,6 +234,18 @@ namespace Test_e.Server.Data
                 .Property(a => a.Type)
                 .HasConversion<string>();
 
+            modelBuilder.Entity<OrderAdjustment>()
+                .HasOne(oa => oa.CreatedBy)
+                .WithMany() // If you don’t need a back-reference collection in User
+                .HasForeignKey(oa => oa.CreatedById)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<OrderAdjustment>()
+                  .HasOne(oa => oa.UpdatedBy)
+                  .WithMany() // Same here
+                  .HasForeignKey(oa => oa.UpdatedById)
+                  .OnDelete(DeleteBehavior.Restrict);
+
             // Seed data for OrderStatuses
             modelBuilder.Entity<OrderStatus>().HasData(
                 new OrderStatus { Id = 1, Name = "Pending", Description = "Order is pending confirmation", IsActive = true },
@@ -234,7 +262,7 @@ namespace Test_e.Server.Data
                 new PaymentStatus { Id = 1, Name = "Pending", Description = "Payment is pending", IsActive = true },
                 new PaymentStatus { Id = 2, Name = "Failed", Description = "Payment has been Failed", IsActive = true },
                 new PaymentStatus { Id = 3, Name = "Paid", Description = "Payment has been Paid", IsActive = true },
-                new PaymentStatus { Id = 3, Name = "Cancelled", Description = "Payment has been cancelled", IsActive = true }
+                new PaymentStatus { Id = 4, Name = "Cancelled", Description = "Payment has been cancelled", IsActive = true }
             );
 
             // Seed data for default roles

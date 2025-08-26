@@ -4,16 +4,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Test_e.Server.AppSettings;
-using Test_e.Server.Helpers;
 using Test_e.Server.Models;
-
+using Test_e.Server.Services.IServices;
+using Test_e.Server.Helpers;
 namespace Test_e.Server.Services
 {
-    public interface ITokenService
-    {
-        string CreateToken(User user);
-    }
-
     public class TokenService : ITokenService
     {
         private readonly JWTSettings _jwt;
