@@ -11,7 +11,7 @@ namespace Test_e.Server.Models
         [Required]
         [StringLength(255)]
         public string Name { get; set; } = string.Empty;
-        ss
+        
         [StringLength(255)]
         public string? Description { get; set; }
 
