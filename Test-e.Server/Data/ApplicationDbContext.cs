@@ -1,13 +1,14 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System;
 using Test_e.Server.Models;
 
 namespace Test_e.Server.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-        {
-        }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+
 
         // Product related
         public DbSet<Product> Products { get; set; }
@@ -251,4 +252,11 @@ namespace Test_e.Server.Data
             );
         }
     }
+    public class AppUser : Microsoft.AspNetCore.Identity.IdentityUser
+    {
+        // Add custom profile fields if you want
+    }
+    public class AppRole : Microsoft.AspNetCore.Identity.IdentityRole { }
+
 }
+

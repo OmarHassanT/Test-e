@@ -33,7 +33,7 @@ namespace Test_e.Server.Repositories
             return await _dbSet
                 .Include(p => p.Category)
                 .Include(p => p.Brand)
-                .Where(p => p.Name.Contains(searchTerm) || p.Description!.Contains(searchTerm))
+                .Where(p => p.Title.Contains(searchTerm) || p.Description!.Contains(searchTerm))
                 .ToListAsync();
         }
 
@@ -84,3 +84,4 @@ namespace Test_e.Server.Repositories
         }
     }
 }
+
