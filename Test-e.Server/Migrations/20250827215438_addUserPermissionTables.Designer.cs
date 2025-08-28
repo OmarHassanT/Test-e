@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Test_e.Server.Data;
 
@@ -11,9 +12,11 @@ using Test_e.Server.Data;
 namespace Test_e.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250827215438_addUserPermissionTables")]
+    partial class addUserPermissionTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -541,10 +544,6 @@ namespace Test_e.Server.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AdjustmentType")
-                        .IsRequired()
-                        .HasColumnType("varchar(20)");
-
                     b.Property<decimal>("Amount")
                         .HasColumnType("decimal(10,2)");
 
@@ -560,6 +559,10 @@ namespace Test_e.Server.Migrations
                     b.Property<string>("Reason")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("varchar(20)");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -765,65 +768,65 @@ namespace Test_e.Server.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8872),
+                            CreatedAt = new DateTime(2025, 8, 27, 21, 54, 37, 952, DateTimeKind.Utc).AddTicks(6019),
                             Description = "Order is pending confirmation",
                             IsActive = true,
                             Name = "Pending",
-                            UpdatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8875)
+                            UpdatedAt = new DateTime(2025, 8, 27, 21, 54, 37, 952, DateTimeKind.Utc).AddTicks(6021)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8883),
+                            CreatedAt = new DateTime(2025, 8, 27, 21, 54, 37, 952, DateTimeKind.Utc).AddTicks(6025),
                             Description = "Order has been confirmed",
                             IsActive = true,
                             Name = "Confirmed",
-                            UpdatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8883)
+                            UpdatedAt = new DateTime(2025, 8, 27, 21, 54, 37, 952, DateTimeKind.Utc).AddTicks(6025)
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8884),
+                            CreatedAt = new DateTime(2025, 8, 27, 21, 54, 37, 952, DateTimeKind.Utc).AddTicks(6027),
                             Description = "Order is being processed",
                             IsActive = true,
                             Name = "Processing",
-                            UpdatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8884)
+                            UpdatedAt = new DateTime(2025, 8, 27, 21, 54, 37, 952, DateTimeKind.Utc).AddTicks(6027)
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8886),
+                            CreatedAt = new DateTime(2025, 8, 27, 21, 54, 37, 952, DateTimeKind.Utc).AddTicks(6029),
                             Description = "Order has been shipped",
                             IsActive = true,
                             Name = "Shipped",
-                            UpdatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8886)
+                            UpdatedAt = new DateTime(2025, 8, 27, 21, 54, 37, 952, DateTimeKind.Utc).AddTicks(6029)
                         },
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8887),
+                            CreatedAt = new DateTime(2025, 8, 27, 21, 54, 37, 952, DateTimeKind.Utc).AddTicks(6030),
                             Description = "Order has been delivered",
                             IsActive = true,
                             Name = "Delivered",
-                            UpdatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8887)
+                            UpdatedAt = new DateTime(2025, 8, 27, 21, 54, 37, 952, DateTimeKind.Utc).AddTicks(6030)
                         },
                         new
                         {
                             Id = 6,
-                            CreatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8888),
+                            CreatedAt = new DateTime(2025, 8, 27, 21, 54, 37, 952, DateTimeKind.Utc).AddTicks(6031),
                             Description = "Order has been cancelled",
                             IsActive = true,
                             Name = "Cancelled",
-                            UpdatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8888)
+                            UpdatedAt = new DateTime(2025, 8, 27, 21, 54, 37, 952, DateTimeKind.Utc).AddTicks(6032)
                         },
                         new
                         {
                             Id = 7,
-                            CreatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8889),
+                            CreatedAt = new DateTime(2025, 8, 27, 21, 54, 37, 952, DateTimeKind.Utc).AddTicks(6033),
                             Description = "Order has been returned",
                             IsActive = true,
                             Name = "Returned",
-                            UpdatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8889)
+                            UpdatedAt = new DateTime(2025, 8, 27, 21, 54, 37, 952, DateTimeKind.Utc).AddTicks(6033)
                         });
                 });
 
@@ -939,38 +942,38 @@ namespace Test_e.Server.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(9044),
+                            CreatedAt = new DateTime(2025, 8, 27, 21, 54, 37, 952, DateTimeKind.Utc).AddTicks(6171),
                             Description = "Payment is pending",
                             IsActive = true,
                             Name = "Pending",
-                            UpdatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(9048)
+                            UpdatedAt = new DateTime(2025, 8, 27, 21, 54, 37, 952, DateTimeKind.Utc).AddTicks(6174)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(9050),
+                            CreatedAt = new DateTime(2025, 8, 27, 21, 54, 37, 952, DateTimeKind.Utc).AddTicks(6177),
                             Description = "Payment has been Failed",
                             IsActive = true,
                             Name = "Failed",
-                            UpdatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(9050)
+                            UpdatedAt = new DateTime(2025, 8, 27, 21, 54, 37, 952, DateTimeKind.Utc).AddTicks(6177)
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(9051),
+                            CreatedAt = new DateTime(2025, 8, 27, 21, 54, 37, 952, DateTimeKind.Utc).AddTicks(6179),
                             Description = "Payment has been Paid",
                             IsActive = true,
                             Name = "Paid",
-                            UpdatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(9052)
+                            UpdatedAt = new DateTime(2025, 8, 27, 21, 54, 37, 952, DateTimeKind.Utc).AddTicks(6179)
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(9052),
+                            CreatedAt = new DateTime(2025, 8, 27, 21, 54, 37, 952, DateTimeKind.Utc).AddTicks(6180),
                             Description = "Payment has been cancelled",
                             IsActive = true,
                             Name = "Cancelled",
-                            UpdatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(9053)
+                            UpdatedAt = new DateTime(2025, 8, 27, 21, 54, 37, 952, DateTimeKind.Utc).AddTicks(6180)
                         });
                 });
 
@@ -1023,24 +1026,6 @@ namespace Test_e.Server.Migrations
                             Id = 5,
                             Description = "Edit orders",
                             Key = "Orders.Edit"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Description = "Register Users",
-                            Key = "RegisterUsers"
-                        },
-                        new
-                        {
-                            Id = 7,
-                            Description = "Order Discount",
-                            Key = "OrderDiscount"
-                        },
-                        new
-                        {
-                            Id = 8,
-                            Description = "View Products",
-                            Key = "Products"
                         });
                 });
 
@@ -1463,10 +1448,6 @@ namespace Test_e.Server.Migrations
                     b.Property<string>("Photo")
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("UserType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

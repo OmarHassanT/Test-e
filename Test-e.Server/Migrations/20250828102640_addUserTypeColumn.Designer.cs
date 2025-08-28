@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Test_e.Server.Data;
 
@@ -11,9 +12,11 @@ using Test_e.Server.Data;
 namespace Test_e.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250828102640_addUserTypeColumn")]
+    partial class addUserTypeColumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -765,65 +768,65 @@ namespace Test_e.Server.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8872),
+                            CreatedAt = new DateTime(2025, 8, 28, 10, 26, 40, 265, DateTimeKind.Utc).AddTicks(2879),
                             Description = "Order is pending confirmation",
                             IsActive = true,
                             Name = "Pending",
-                            UpdatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8875)
+                            UpdatedAt = new DateTime(2025, 8, 28, 10, 26, 40, 265, DateTimeKind.Utc).AddTicks(2881)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8883),
+                            CreatedAt = new DateTime(2025, 8, 28, 10, 26, 40, 265, DateTimeKind.Utc).AddTicks(2886),
                             Description = "Order has been confirmed",
                             IsActive = true,
                             Name = "Confirmed",
-                            UpdatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8883)
+                            UpdatedAt = new DateTime(2025, 8, 28, 10, 26, 40, 265, DateTimeKind.Utc).AddTicks(2887)
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8884),
+                            CreatedAt = new DateTime(2025, 8, 28, 10, 26, 40, 265, DateTimeKind.Utc).AddTicks(2888),
                             Description = "Order is being processed",
                             IsActive = true,
                             Name = "Processing",
-                            UpdatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8884)
+                            UpdatedAt = new DateTime(2025, 8, 28, 10, 26, 40, 265, DateTimeKind.Utc).AddTicks(2888)
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8886),
+                            CreatedAt = new DateTime(2025, 8, 28, 10, 26, 40, 265, DateTimeKind.Utc).AddTicks(2889),
                             Description = "Order has been shipped",
                             IsActive = true,
                             Name = "Shipped",
-                            UpdatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8886)
+                            UpdatedAt = new DateTime(2025, 8, 28, 10, 26, 40, 265, DateTimeKind.Utc).AddTicks(2890)
                         },
                         new
                         {
                             Id = 5,
-                            CreatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8887),
+                            CreatedAt = new DateTime(2025, 8, 28, 10, 26, 40, 265, DateTimeKind.Utc).AddTicks(2891),
                             Description = "Order has been delivered",
                             IsActive = true,
                             Name = "Delivered",
-                            UpdatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8887)
+                            UpdatedAt = new DateTime(2025, 8, 28, 10, 26, 40, 265, DateTimeKind.Utc).AddTicks(2891)
                         },
                         new
                         {
                             Id = 6,
-                            CreatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8888),
+                            CreatedAt = new DateTime(2025, 8, 28, 10, 26, 40, 265, DateTimeKind.Utc).AddTicks(2892),
                             Description = "Order has been cancelled",
                             IsActive = true,
                             Name = "Cancelled",
-                            UpdatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8888)
+                            UpdatedAt = new DateTime(2025, 8, 28, 10, 26, 40, 265, DateTimeKind.Utc).AddTicks(2892)
                         },
                         new
                         {
                             Id = 7,
-                            CreatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8889),
+                            CreatedAt = new DateTime(2025, 8, 28, 10, 26, 40, 265, DateTimeKind.Utc).AddTicks(2893),
                             Description = "Order has been returned",
                             IsActive = true,
                             Name = "Returned",
-                            UpdatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(8889)
+                            UpdatedAt = new DateTime(2025, 8, 28, 10, 26, 40, 265, DateTimeKind.Utc).AddTicks(2894)
                         });
                 });
 
@@ -939,38 +942,38 @@ namespace Test_e.Server.Migrations
                         new
                         {
                             Id = 1,
-                            CreatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(9044),
+                            CreatedAt = new DateTime(2025, 8, 28, 10, 26, 40, 265, DateTimeKind.Utc).AddTicks(3017),
                             Description = "Payment is pending",
                             IsActive = true,
                             Name = "Pending",
-                            UpdatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(9048)
+                            UpdatedAt = new DateTime(2025, 8, 28, 10, 26, 40, 265, DateTimeKind.Utc).AddTicks(3020)
                         },
                         new
                         {
                             Id = 2,
-                            CreatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(9050),
+                            CreatedAt = new DateTime(2025, 8, 28, 10, 26, 40, 265, DateTimeKind.Utc).AddTicks(3024),
                             Description = "Payment has been Failed",
                             IsActive = true,
                             Name = "Failed",
-                            UpdatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(9050)
+                            UpdatedAt = new DateTime(2025, 8, 28, 10, 26, 40, 265, DateTimeKind.Utc).AddTicks(3025)
                         },
                         new
                         {
                             Id = 3,
-                            CreatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(9051),
+                            CreatedAt = new DateTime(2025, 8, 28, 10, 26, 40, 265, DateTimeKind.Utc).AddTicks(3026),
                             Description = "Payment has been Paid",
                             IsActive = true,
                             Name = "Paid",
-                            UpdatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(9052)
+                            UpdatedAt = new DateTime(2025, 8, 28, 10, 26, 40, 265, DateTimeKind.Utc).AddTicks(3026)
                         },
                         new
                         {
                             Id = 4,
-                            CreatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(9052),
+                            CreatedAt = new DateTime(2025, 8, 28, 10, 26, 40, 265, DateTimeKind.Utc).AddTicks(3027),
                             Description = "Payment has been cancelled",
                             IsActive = true,
                             Name = "Cancelled",
-                            UpdatedAt = new DateTime(2025, 8, 28, 10, 36, 40, 352, DateTimeKind.Utc).AddTicks(9053)
+                            UpdatedAt = new DateTime(2025, 8, 28, 10, 26, 40, 265, DateTimeKind.Utc).AddTicks(3027)
                         });
                 });
 
