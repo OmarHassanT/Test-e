@@ -2,6 +2,7 @@
 using System.Net;
 using System.Text.Json;
 using Test_e.Server.Exceptions;
+using Test_e.Server.Models;
 
 namespace Test_e.Server.Middlewares
 {
@@ -28,53 +29,53 @@ namespace Test_e.Server.Middlewares
             {
                 context.Response.ContentType = "application/problem+json";
                 var problemDetails = CreateProblemDetails(context, ex);
-                context.Response.StatusCode = problemDetails.Status ?? (int)HttpStatusCode.InternalServerError;
+                context.Response.StatusCode = problemDetails.Status;
 
                 var json = JsonSerializer.Serialize(problemDetails);
                 await context.Response.WriteAsync(json);
             }
         }
 
-        private ProblemDetails CreateProblemDetails(HttpContext context, Exception ex)
+        private ApiErrorResponse CreateProblemDetails(HttpContext context, Exception ex)
         {
             return ex switch
             {
-                ArgumentNullException => new ProblemDetails
+                ArgumentNullException => new ApiErrorResponse
                 {
                     Title = "Bad Request",
                     Status = StatusCodes.Status400BadRequest,
                     Detail = ex.Message,
                     Instance = context.Request.Path
                 },
-                ArgumentException => new ProblemDetails
+                ArgumentException => new ApiErrorResponse
                 {
                     Title = "Bad Request",
                     Status = StatusCodes.Status400BadRequest,
                     Detail = ex.Message,
                     Instance = context.Request.Path
                 },
-                BadHttpRequestException => new ProblemDetails
+                BadHttpRequestException => new ApiErrorResponse
                 {
                     Title = "Bad Request",
                     Status = StatusCodes.Status400BadRequest,
                     Detail = ex.Message,
                     Instance = context.Request.Path
                 },
-                NotFoundException => new ProblemDetails
+                NotFoundException => new ApiErrorResponse
                 {
                     Title = "Not Found",
                     Status = StatusCodes.Status404NotFound,
                     Detail = ex.Message,
                     Instance = context.Request.Path
                 },
-                ConflictException => new ProblemDetails
+                ConflictException => new ApiErrorResponse
                 {
                     Title = "Conflict",
                     Status = StatusCodes.Status409Conflict,
                     Detail = ex.Message,
                     Instance = context.Request.Path
                 },
-                _ => new ProblemDetails
+                _ => new ApiErrorResponse
                 {
                     Title = "Internal Server Error",
                     Status = StatusCodes.Status500InternalServerError,
