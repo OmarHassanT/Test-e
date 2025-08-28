@@ -26,10 +26,13 @@ namespace Test_e.Server.Models
         public string? Phone { get; set; }
         
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        
+
+        /// <summary>
+        /// Indicates whether the user is a BackOffice user (managing the system)
+        /// or a Customer (purchasing products).
+        /// </summary>
         [Required]
-        [StringLength(50)]
-        public string Role { get; set; } = "Customer"; //Super Admin, Admin, Employee,Trader
+        public UserType UserType { get; set; }
 
         [StringLength(255)]
         public string? FacebookId { get; set; }
@@ -52,5 +55,12 @@ namespace Test_e.Server.Models
         public virtual ICollection<Cart> Carts { get; set; } = new List<Cart>();
         public virtual ICollection<RecentlyViewedProduct> RecentlyViewedProducts { get; set; } = new List<RecentlyViewedProduct>();
         public virtual ICollection<Log> Logs { get; set; } = new List<Log>();
+        public ICollection<UserPermission> UserPermissions { get; set; } = new List<UserPermission>();
+
+    }
+    public enum UserType
+    {
+        BackOffice = 0,
+        Customer = 1,
     }
 }

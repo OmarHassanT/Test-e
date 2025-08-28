@@ -26,10 +26,10 @@ namespace Test_e.Server.Models
         /// If null then no limit for using the discount code
         /// </summary>
         public int? NumberOfUsage { get; set; }
-
         /// <summary>
         /// The discount code is working for order greater than this field value
         /// </summary>
+        [Column(TypeName = "decimal(10,2)")]
         public decimal MinimumOrderTotalPrice { get; set; } = 0.0M;
 
         public DateOnly ValidFrom { get; set; }

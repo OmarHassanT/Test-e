@@ -4,9 +4,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Test_e.Server.AppSettings;
+using Test_e.Server.Helpers;
 using Test_e.Server.Models;
 using Test_e.Server.Services.IServices;
-using Test_e.Server.Helpers;
 namespace Test_e.Server.Services
 {
     public class TokenService : ITokenService
@@ -27,13 +27,17 @@ namespace Test_e.Server.Services
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwt.Key!));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+
             var claims = new List<Claim>
-        {
-            new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new(JwtRegisteredClaimNames.UniqueName, user.FullName),
-            new(JwtRegisteredClaimNames.Email, user.Email ?? ""),
-            new(ClaimTypes.Role, user.Role) // 🔑 role comes from your User.Role field
-        };
+            {
+                new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new(JwtRegisteredClaimNames.UniqueName, user.FullName),
+                new(JwtRegisteredClaimNames.Email, user.Email ?? ""),
+                new("phone", user.Phone ?? ""),
+                new("user_type", user.UserType.ToString()),
+            };
+
+            AddPermissionsToUserClaims(user, claims);
 
             var token = new JwtSecurityToken(
                 issuer: _jwt.Issuer,
@@ -43,6 +47,16 @@ namespace Test_e.Server.Services
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        private static void AddPermissionsToUserClaims(User user, List<Claim> claims)
+        {
+            var permissions = user.UserPermissions
+                                              .Select(up => up.Permission.Key)
+                                              .ToList();
+
+            foreach (var p in permissions)
+                claims.Add(new Claim("permission", p));
         }
     }
 }

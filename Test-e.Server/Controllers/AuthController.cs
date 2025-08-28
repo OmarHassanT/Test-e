@@ -7,13 +7,15 @@ using System.Security.Cryptography;
 using System.Text;
 using Test_e.Server.Data;
 using Test_e.Server.DTOs;
+using Test_e.Server.FilterAttributes;
 using Test_e.Server.Models;
 using Test_e.Server.Services.IServices;
 
 namespace Test_e.Server.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/auth")]
+
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
@@ -23,7 +25,7 @@ namespace Test_e.Server.Controllers
             _authService = authService;
         }
 
-        [Authorize(Roles = "SuperAdmin")]
+        [Permission("RegisterUsers")]
         [HttpPost("register")]
         public async Task<ActionResult<ApiResponse<string>>> Register(RegisterUserDto userDto)
         {
@@ -37,6 +39,7 @@ namespace Test_e.Server.Controllers
             });
         }
 
+        [AllowAnonymous]
         [HttpPost("login")]
         public async Task<ActionResult<ApiResponse<string>>> Login([FromBody] LoginDto dto)
         {
@@ -49,5 +52,7 @@ namespace Test_e.Server.Controllers
                 Data = token
             });
         }
+
+
     }
 }

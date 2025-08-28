@@ -1,4 +1,5 @@
 ﻿using Test_e.Server.DTOs;
+using Test_e.Server.Models;
 
 namespace Test_e.Server.Services.IServices
 {
@@ -6,5 +7,7 @@ namespace Test_e.Server.Services.IServices
     {
         Task<string> RegisterAsync(RegisterUserDto dto);
         Task<string> LoginAsync(string email, string password);
+        Task AssignPermissionsToUserAsync(List<int> permissionIds, User user);
+
     }
 }
