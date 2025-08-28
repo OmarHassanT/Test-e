@@ -4,6 +4,7 @@ using Test_e.Server.AppSettings;
 using Test_e.Server.Data;
 using Test_e.Server.Extensions;
 using Test_e.Server.Helpers;
+using Test_e.Server.Mapper;
 using Test_e.Server.Middlewares;
 using Test_e.Server.Repositories;
 using Test_e.Server.Services;
@@ -78,6 +79,8 @@ builder.Services.AddScoped<DbSeederService>();
 builder.Services.AddScoped<IProductService,ProductService>();
 builder.Services.AddSingleton<PasswordService>();
 builder.Services.AddSingleton<Helper>();
+builder.Services.AddAutoMapper(typeof(ProductProfile));
+
 
 // -----------------------------------------------------------------------------
 // Handle model validation errors uniformly
@@ -87,6 +90,7 @@ builder.Services.ConfigureModelBindingValidationResponse();
 
 
 var app = builder.Build();
+
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 // Configure the HTTP request pipeline.
