@@ -216,8 +216,6 @@ public interface IRepository<T> where T : class
 - Input validation with Data Annotations
 - Exception handling and logging
 - CORS configuration for frontend integration
-- Role-based user management
-
 ## 🧪 Testing the API
 
 Use the Swagger UI or tools like Postman to test the endpoints:

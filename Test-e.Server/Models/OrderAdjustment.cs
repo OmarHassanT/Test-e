@@ -22,7 +22,7 @@ namespace Test_e.Server.Models
 
         [Required]
         [Column(TypeName = "varchar(20)")]
-        public OrderAdjustmentType Type { get; set; } // 'extra_cost' or 'discount'
+        public OrderAdjustmentType AdjustmentType { get; set; } // 'extra_cost' or 'discount'
 
         [Required]
         [Column(TypeName = "decimal(10,2)")]

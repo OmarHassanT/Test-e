@@ -22,5 +22,7 @@ namespace Test_e.Server.Models
         // Navigation properties
         public virtual ICollection<City> Cities { get; set; } = new List<City>();
         public virtual ICollection<DeliveryPrice> DeliveryPrices { get; set; } = new List<DeliveryPrice>();
+        public virtual ICollection<Address> Addresses { get; set; } = new List<Address>();
+
     }
 }

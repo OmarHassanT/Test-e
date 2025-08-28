@@ -10,7 +10,9 @@ namespace Test_e.Server.Models
         
         [Required]
         [StringLength(255)]
-        public string Name { get; set; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
+        [StringLength(255)]
+        public string SubTitle { get; set; } = string.Empty;
         
         [StringLength(255)]
         public string? Description { get; set; }

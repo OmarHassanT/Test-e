@@ -1,13 +1,12 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Test_e.Server.Models;
 
 namespace Test_e.Server.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
-        {
-        }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+
 
         // Product related
         public DbSet<Product> Products { get; set; }
@@ -26,6 +25,8 @@ namespace Test_e.Server.Data
 
         // User related
         public DbSet<User> Users { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
+        public DbSet<UserPermission> UserPermissions { get; set; }
         public DbSet<Address> Addresses { get; set; }
 
         // Cart and Wishlist
@@ -157,7 +158,7 @@ namespace Test_e.Server.Data
                 .HasOne(w => w.User)
                 .WithMany(u => u.Wishlists)
                 .HasForeignKey(w => w.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<WishlistItem>()
                 .HasOne(wi => wi.Wishlist)
@@ -175,7 +176,7 @@ namespace Test_e.Server.Data
                 .HasOne(r => r.User)
                 .WithMany(u => u.Reviews)
                 .HasForeignKey(r => r.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Review>()
                 .HasOne(r => r.Product)
@@ -187,7 +188,7 @@ namespace Test_e.Server.Data
                 .HasOne(rvp => rvp.User)
                 .WithMany(u => u.RecentlyViewedProducts)
                 .HasForeignKey(rvp => rvp.UserId)
-                .OnDelete(DeleteBehavior.Cascade);
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<RecentlyViewedProduct>()
                 .HasOne(rvp => rvp.Product)
@@ -200,6 +201,24 @@ namespace Test_e.Server.Data
                 .WithMany(u => u.Addresses)
                 .HasForeignKey(a => a.UserId)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            modelBuilder.Entity<Address>()
+                .HasOne(a => a.Country)
+                .WithMany(c => c.Addresses)
+                .HasForeignKey(a => a.CountryId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Address>()
+                .HasOne(a => a.State)
+                .WithMany(c => c.Addresses)
+                .HasForeignKey(a => a.StateId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Address>()
+                .HasOne(a => a.City)
+                .WithMany(c => c.Addresses)
+                .HasForeignKey(a => a.CityId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<State>()
                 .HasOne(s => s.Country)
@@ -214,7 +233,23 @@ namespace Test_e.Server.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<OrderAdjustment>()
-                .Property(a => a.Type)
+                .Property(a => a.AdjustmentType)
+                .HasConversion<string>();
+
+            modelBuilder.Entity<OrderAdjustment>()
+                .HasOne(oa => oa.CreatedBy)
+                .WithMany() // If you don’t need a back-reference collection in User
+                .HasForeignKey(oa => oa.CreatedById)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<OrderAdjustment>()
+                  .HasOne(oa => oa.UpdatedBy)
+                  .WithMany() // Same here
+                  .HasForeignKey(oa => oa.UpdatedById)
+                  .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<User>()
+                .Property(a => a.UserType)
                 .HasConversion<string>();
 
             // Seed data for OrderStatuses
@@ -233,22 +268,27 @@ namespace Test_e.Server.Data
                 new PaymentStatus { Id = 1, Name = "Pending", Description = "Payment is pending", IsActive = true },
                 new PaymentStatus { Id = 2, Name = "Failed", Description = "Payment has been Failed", IsActive = true },
                 new PaymentStatus { Id = 3, Name = "Paid", Description = "Payment has been Paid", IsActive = true },
-                new PaymentStatus { Id = 3, Name = "Cancelled", Description = "Payment has been cancelled", IsActive = true }
+                new PaymentStatus { Id = 4, Name = "Cancelled", Description = "Payment has been cancelled", IsActive = true }
             );
 
-            // Seed data for default roles
-            modelBuilder.Entity<User>().HasData(
-                new User
-                {
-                    Id = 1,
-                    FirstName = "Admin",
-                    LastName = "User",
-                    Email = "admin@teste.com",
-                    Password = "admin123",
-                    Role = "Admin",
-                    CreatedAt = DateTime.UtcNow
-                }
+            modelBuilder.Entity<UserPermission>()
+                .HasKey(x => new { x.UserId, x.PermissionId });
+
+            // Example seeding for Permissions
+            modelBuilder.Entity<Permission>().HasData(
+                new Permission { Id = 1, Key = "Dashboard.View", Description = "View dashboard" },
+                new Permission { Id = 2, Key = "Products.View", Description = "View products" },
+                new Permission { Id = 3, Key = "Products.Edit", Description = "Edit products" },
+                new Permission { Id = 4, Key = "Orders.View", Description = "View orders" },
+                new Permission { Id = 5, Key = "Orders.Edit", Description = "Edit orders" },
+                new Permission { Id = 6, Key = "RegisterUsers", Description = "Register Users" },
+                new Permission { Id = 7, Key = "OrderDiscount", Description = "Order Discount" },
+                new Permission { Id = 8, Key = "Products", Description = "View Products" }
             );
+         
         }
     }
+   
+
 }
+
