@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Test_e.Server.Models;
 
 namespace Test_e.Server.Data
@@ -25,6 +25,8 @@ namespace Test_e.Server.Data
 
         // User related
         public DbSet<User> Users { get; set; }
+        public DbSet<Permission> Permissions { get; set; }
+        public DbSet<UserPermission> UserPermissions { get; set; }
         public DbSet<Address> Addresses { get; set; }
 
         // Cart and Wishlist
@@ -231,12 +233,12 @@ namespace Test_e.Server.Data
                 .OnDelete(DeleteBehavior.Cascade);
 
             modelBuilder.Entity<OrderAdjustment>()
-                .Property(a => a.Type)
+                .Property(a => a.AdjustmentType)
                 .HasConversion<string>();
 
             modelBuilder.Entity<OrderAdjustment>()
                 .HasOne(oa => oa.CreatedBy)
-                .WithMany() // If you don�t need a back-reference collection in User
+                .WithMany() // If you don’t need a back-reference collection in User
                 .HasForeignKey(oa => oa.CreatedById)
                 .OnDelete(DeleteBehavior.Restrict);
 
@@ -245,6 +247,10 @@ namespace Test_e.Server.Data
                   .WithMany() // Same here
                   .HasForeignKey(oa => oa.UpdatedById)
                   .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<User>()
+                .Property(a => a.UserType)
+                .HasConversion<string>();
 
             // Seed data for OrderStatuses
             modelBuilder.Entity<OrderStatus>().HasData(
@@ -265,26 +271,24 @@ namespace Test_e.Server.Data
                 new PaymentStatus { Id = 4, Name = "Cancelled", Description = "Payment has been cancelled", IsActive = true }
             );
 
-            // Seed data for default roles
-            modelBuilder.Entity<User>().HasData(
-                new User
-                {
-                    Id = 1,
-                    FirstName = "Admin",
-                    LastName = "User",
-                    Email = "admin@teste.com",
-                    Password = "admin123",
-                    Role = "Admin",
-                    CreatedAt = DateTime.UtcNow
-                }
+            modelBuilder.Entity<UserPermission>()
+                .HasKey(x => new { x.UserId, x.PermissionId });
+
+            // Example seeding for Permissions
+            modelBuilder.Entity<Permission>().HasData(
+                new Permission { Id = 1, Key = "Dashboard.View", Description = "View dashboard" },
+                new Permission { Id = 2, Key = "Products.View", Description = "View products" },
+                new Permission { Id = 3, Key = "Products.Edit", Description = "Edit products" },
+                new Permission { Id = 4, Key = "Orders.View", Description = "View orders" },
+                new Permission { Id = 5, Key = "Orders.Edit", Description = "Edit orders" },
+                new Permission { Id = 6, Key = "RegisterUsers", Description = "Register Users" },
+                new Permission { Id = 7, Key = "OrderDiscount", Description = "Order Discount" },
+                new Permission { Id = 8, Key = "Products", Description = "View Products" }
             );
+         
         }
     }
-    public class AppUser : Microsoft.AspNetCore.Identity.IdentityUser
-    {
-        // Add custom profile fields if you want
-    }
-    public class AppRole : Microsoft.AspNetCore.Identity.IdentityRole { }
+   
 
 }
 
