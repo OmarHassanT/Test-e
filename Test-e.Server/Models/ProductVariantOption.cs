@@ -3,15 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Test_e.Server.Models
 {
-    public class VariantAttributeValue
+    public class ProductVariantOption
     {
-        [ForeignKey("ProductVariant")]
         public int ProductVariantId { get; set; }
+        public int AttributeOptionId { get; set; }
+
         public virtual ProductVariant ProductVariant { get; set; } = null!;
-        
-        [ForeignKey("AttributeValue")]
-        public int AttributeValueId { get; set; }
-        public virtual AttributeValue AttributeValue { get; set; } = null!;
+        public virtual AttributeOption AttributeOption { get; set; } = null!;
       
     }
 }

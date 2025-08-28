@@ -36,7 +36,7 @@ namespace Test_e.Server.Models
 
         // Navigation properties
         public ICollection<ProductImage> Images { get; set; } = new List<ProductImage>();
-        public virtual ICollection<VariantAttributeValue> VariantAttributeValues { get; set; } = new List<VariantAttributeValue>();
+        public virtual ICollection<ProductVariantOption> VariantOptions { get; set; } = new List<ProductVariantOption>();
         public virtual ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
         public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
         public virtual ICollection<ProductDiscount> ProductDiscounts { get; set; } = new List<ProductDiscount>();

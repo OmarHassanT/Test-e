@@ -40,7 +40,7 @@ namespace Test_e.Server.Repositories
         public async Task<IEnumerable<Product>> GetProductsWithVariantsAsync()
         {
             return await _dbSet
-                .Include(p => p.ProductVariants)
+                .Include(p => p.Variants)
                 .Include(p => p.Category)
                 .Include(p => p.Brand)
                 .ToListAsync();
@@ -51,7 +51,7 @@ namespace Test_e.Server.Repositories
             return await _dbSet
                 .Include(p => p.Category)
                 .Include(p => p.Brand)
-                .Include(p => p.ProductVariants)
+                .Include(p => p.Variants)
                 .Include(p => p.Reviews)
                 .Include(p => p.ProductTags)
                     .ThenInclude(pt => pt.Tag)

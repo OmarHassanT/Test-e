@@ -12,15 +12,15 @@ namespace Test_e.Server.Models
         [StringLength(255)]
         public string Title { get; set; } = string.Empty;
         [StringLength(255)]
-        public string SubTitle { get; set; } = string.Empty;
+        public string? SubTitle { get; set; }
         
         [StringLength(255)]
         public string? Description { get; set; }
 
         public bool IsActive { get; set; } = true;
         
-        public int? CategoryId { get; set; }
-        public virtual Category? Category { get; set; }
+        public int CategoryId { get; set; }
+        public virtual Category Category { get; set; } = null!;
         
         public int? BrandId { get; set; }
         public virtual Brand? Brand { get; set; }
@@ -36,7 +36,8 @@ namespace Test_e.Server.Models
 
         // Navigation properties
         public ICollection<ProductImage> Images { get; set; } = new List<ProductImage>();
-        public virtual ICollection<ProductVariant> ProductVariants { get; set; } = new List<ProductVariant>();
+        public ICollection<ProductAttribute> Attributes { get; set; } = new List<ProductAttribute>();
+        public virtual ICollection<ProductVariant> Variants { get; set; } = new List<ProductVariant>();
         public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
         public virtual ICollection<WishlistItem> WishlistItems { get; set; } = new List<WishlistItem>();
         public virtual ICollection<RecentlyViewedProduct> RecentlyViewedProducts { get; set; } = new List<RecentlyViewedProduct>();

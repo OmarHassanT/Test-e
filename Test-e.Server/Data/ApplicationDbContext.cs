@@ -13,9 +13,9 @@ namespace Test_e.Server.Data
         public DbSet<ProductVariant> ProductVariants { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Brand> Brands { get; set; }
-        public DbSet<Models.Attribute> Attributes { get; set; }
-        public DbSet<AttributeValue> AttributeValues { get; set; }
-        public DbSet<VariantAttributeValue> VariantAttributeValues { get; set; }
+        public DbSet<ProductAttribute> ProductAttributes { get; set; }
+        public DbSet<AttributeOption> AttributeOptions { get; set; }
+        public DbSet<ProductVariantOption> ProductVariantOptions { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<ProductTag> ProductTags { get; set; }
         public DbSet<ProductBadge> ProductBadges { get; set; }
@@ -69,8 +69,8 @@ namespace Test_e.Server.Data
             base.OnModelCreating(modelBuilder);
 
             // Configure composite keys for junction tables
-            modelBuilder.Entity<VariantAttributeValue>()
-                .HasKey(vav => new { vav.ProductVariantId, vav.AttributeValueId });
+            modelBuilder.Entity<ProductVariantOption>()
+                .HasKey(pvo => new { pvo.ProductVariantId, pvo.AttributeOptionId });
 
             modelBuilder.Entity<ProductTag>()
                 .HasKey(pt => new { pt.ProductId, pt.TagId });
@@ -96,13 +96,13 @@ namespace Test_e.Server.Data
 
             modelBuilder.Entity<ProductVariant>()
                 .HasOne(pv => pv.Product)
-                .WithMany(p => p.ProductVariants)
+                .WithMany(p => p.Variants)
                 .HasForeignKey(pv => pv.ProductId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<AttributeValue>()
+            modelBuilder.Entity<AttributeOption>()
                 .HasOne(av => av.Attribute)
-                .WithMany(a => a.AttributeValues)
+                .WithMany(a => a.Options)
                 .HasForeignKey(av => av.AttributeId)
                 .OnDelete(DeleteBehavior.Cascade);
 

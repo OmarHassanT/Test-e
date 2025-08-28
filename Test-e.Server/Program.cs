@@ -75,6 +75,7 @@ builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ICustomerAuthService, CustomerAuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<DbSeederService>();
+builder.Services.AddScoped<IProductService,ProductService>();
 builder.Services.AddSingleton<PasswordService>();
 builder.Services.AddSingleton<Helper>();
 
